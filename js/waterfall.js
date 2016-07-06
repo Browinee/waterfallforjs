@@ -1,6 +1,44 @@
 window.onload=function(){
   waterfall('main','box');
+  var backData={
+    'data':[
+      {
+        'src':'../images/23.jpg'
+      },
+      {
+        'src':'../images/24.jpg'
+      },
+      {
+        'src':'../images/25.jpg'
+      },
+      {
+        'src':'../images/26.jpg'
+      }
 
+    ]
+  };
+  window.onscroll=function(){
+    if(checkScrollSlide()){    //要使用()代表執行，也才會有return true or false
+              //假設由後台傳來json格式
+        var oParent = document.getElementById('main');
+        for(var i=0;i<backData.data.length;i++){
+          var oBox = dcoument.createElement('div');
+          oBox.className="box";
+          oParent.appendChild(oBox);
+
+          var oPic = dcoument.createElement('div');
+          oPic.className="pic";
+          oBox.appendChild(oPic);
+
+          var oImg = dcoument.createElement('img');
+          oImg.src=backData.data[i].src;
+          oPic.appendChild(oImg);
+
+
+        }
+      waterfall('main','box');
+    }
+  }
 
 }
 
@@ -46,12 +84,24 @@ function getByClass(parent,clsName){
 
 }
 
-
 function getMinIndex(arr,val){
     for(var i in arr){
       if(arr[i] == val){
         return i;
       }
     }
+
+}
+
+//檢測是否具備load 新圖片的條件
+function checkScrollSlide(){
+  var oParent =document.getElementById('main');
+  var oBoxs = getByClass(oParent,box);
+  var lastBoxH =oBoxs[oBoxs.length-1].offsetTop+Math.floor(oBoxs[oBoxs.length-1].offsetHeight/2);
+  var scrollTop =document.body.scrollTop ||dcoument.documentElement.scrollTop;
+  var height = document.documentElement.clientHeight||document.body.clientHeight;
+  return (lastBoxH < scrollTop+height)?true:false;
+
+
 
 }
